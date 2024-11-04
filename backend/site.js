@@ -1,21 +1,21 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
+require('dotenv').config();
 
-const hostname = '';
-// const hostname = 'localhost';
-const port = 3000;
+// const HOST_NAME = process.env.HOST_NAME;
+const PORT = process.env.PORT || 3000;
+// const HOST_NAME = "localhost"
+// const PORT = 3000;
 
 const server = http.createServer((req, res) => {
-  // Путь к файлу в зависимости от URL
   let filePath;
   if (req.url === '/index' || req.url === '/') {
     filePath = path.join(__dirname, '../frontend', 'index.html');
   } else {
-    filePath = path.join(__dirname,"..", req.url); // путь к запрашиваемому файлу
+    filePath = path.join(__dirname,"..", req.url); 
   }
 
-  // Определяем content-type
   const extname = path.extname(filePath);
   let contentType = 'text/plain';
 
@@ -59,37 +59,9 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(port, hostname, () => {
-    console.log(`Server running at http://${hostname}:${port}/`);
-  });
-
-// const server = http.createServer((req, res) => {
-//     switch (req.url){   
-//     case '/api':
-//         res.writeHead(200, { 'Content-Type': 'application/json' });
-//         res.end(JSON.stringify({ message: 'Hello from backend!' }));
-//     break;
-//     case '/index':
-//         const indexMain = path.resolve(__dirname + '/frontend/index.html');
-//         fs.readFile(indexMain, (err, html) => {
-//             if (err) {
-//               console.error(err);
-//               res.writeHead(500, { 'Content-Type': 'text/plain' });
-//               res.end("Something went wrong");
-//               return;
-//             }
-            
-//             res.writeHead(200, { 'Content-Type': 'text/html' });
-//             res.end(html);  // Здесь мы вызываем res.end() с html
-//           });
-//         break;
-//     default:
-//         res.writeHead(404, { 'Content-Type': 'text/plain' });
-//         res.end('Not Found');
-//     break;
-//   }
-// });
-
-// server.listen(3000, () => {
-//   console.log('Server is running on http://localhost:3000');
-// });
+server.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+// server.listen(PORT,HOST_NAME, () => {
+//     console.log(`Server running at http://${HOST_NAME}:${PORT}/`);
+//   });
